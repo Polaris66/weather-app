@@ -1,6 +1,10 @@
 Provides Following Details -
 
-- Tempurature
+- Temperature
 - Precipitation
 - Humidity
 - Wind
+
+## Functionality
+
+- Search City
