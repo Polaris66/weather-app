@@ -5,6 +5,8 @@ Provides Following Details -
 - Humidity
 - Wind
 
-## Functionality
+## TODO
 
-- Search City
+- Add Search Functionality
+- Make Proxy Server for API Key
+- Deploy
