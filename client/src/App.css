@@ -44,6 +44,12 @@ body {
   font-family: inherit;
 }
 
+.search p {
+  font-size: 24px;
+  color: #fff6f4;
+  font-family: inherit;
+}
+
 .search button {
 
   background: #D7602A;

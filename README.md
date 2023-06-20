@@ -7,6 +7,5 @@ Provides Following Details -
 
 ## TODO
 
-- Add Search Functionality
-- Make Proxy Server for API Key
 - Deploy
+- Explore Autocomplete More

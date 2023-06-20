@@ -1,23 +1,48 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import "./App.css";
 
 function App() {
   const [place, setPlace] = useState("");
+  const [autocomplete, setAutocomplete] = useState("");
 
   const [t, setT] = useState(0);
   const [p, setP] = useState(0);
   const [h, setH] = useState(0);
   const [w, setW] = useState(0);
   const [error, setError] = useState("");
-  const APIKey = `910571e1f91f4fdca8571730231906`;
+
+  const changeInput = async (e: ChangeEvent<HTMLInputElement>) => {
+    setPlace(e.target.value);
+    const value = await fetch("http://127.0.0.1:5000/autocomplete", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ location: place }),
+    });
+    const json = await value.json();
+
+    if (json.length === 0) {
+      setAutocomplete("");
+      return;
+    }
+    const loc = json[0];
+    setAutocomplete(`${loc["name"]}, ${loc["region"]}, ${loc["country"]}`);
+  };
+
   const getWeather = async () => {
     try {
-      const data = await fetch(
-        `http://api.weatherapi.com/v1/current.json?key=${APIKey}&q=${place}`
-      );
-      const value = await data.json();
-      setError("");
-      const current = value["current"];
+      const value = await fetch("http://127.0.0.1:5000/weather", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ location: place }),
+      });
+      const json = await value.json();
+      const current = json.current;
       setT(current["temp_c"]);
       setP(current["precip_mm"]);
       setH(current["humidity"]);
@@ -36,9 +61,10 @@ function App() {
             placeholder="Enter Place"
             value={place}
             onChange={(e) => {
-              setPlace(e.target.value);
+              changeInput(e);
             }}
           />
+          {autocomplete !== "" && <p>{autocomplete}</p>}
           <button
             onClick={() => {
               getWeather();
